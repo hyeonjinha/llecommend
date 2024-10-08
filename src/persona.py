@@ -12,26 +12,23 @@ persona_template = """
 - 나이: {age}
 - 성별: {gender}
 - 직업: {job}
-- 유저가 제공한 추가 정보:{user_input}
-(나이, 성별, 직업, 취미와 관심사, 성격 특성, 이미 시청한 영화, 선호하는 감독이나 배우, 영화 감상 목적 등을 포함할 수 있습니다.)
+- 유저가 제공한 추가 정보: {user_input}
 
 제공된 정보 중 일부가 비어있을 수 있습니다. 빈 값이 있으면 해당 정보를 무시하거나 그에 맞는 추론을 해주세요.
 
 ### 페르소나 생성 작업:
-1. 주어진 정보를 바탕으로 사용자의 성격, 취미 및 영화 선호도를 추론하세요.
-2. 사용자의 나이, 직업, 생활 패턴이 영화 선택에 미치는 영향을 고려하세요.
-3. 감정적, 지적 니즈에 따른 영화 선호도를 설명하세요.
-4. 특정 장르, 테마, 영화적 요소에 대한 호불호를 추론하세요.
-5. 영화 시청 습관과 환경을 고려한 추천 전략을 제시하세요.
-6. 문화적 배경과 언어 선호도를 추론하여 반영하세요.
-7. 영화 선택 기준(평점, 리뷰, 상업성 vs 예술성 등)을 추정하세요.
-8. 제공된 정보가 부족한 경우, 적절한 추론을 통해 완성된 페르소나 설명을 제공하세요.
+1. 사용자의 성격, 취미 및 영화 선호도를 주어진 정보에 맞춰 추론하세요.
+2. 감정 상태와 영화 감상 목적이 영화 선택에 미치는 영향을 반영하여 페르소나를 작성하세요.
+3. 나이, 직업, 생활 패턴을 고려하여 영화 선택 기준(예: 상업성 vs 예술성, 신작 vs 고전)을 추정하세요.
+4. 특정 장르, 테마, 영화적 요소에 대한 호불호를 추론하여 정리하세요.
+5. 문화적 배경과 언어 선호도를 반영하여 영화를 추천할 수 있도록 페르소나를 작성하세요.
+6. 제공된 정보가 부족한 경우, 적절한 추론을 통해 완성된 페르소나 설명을 제공하세요.
 
 결과는 다음 JSON 형식으로 제공해주세요:
 
-{{
+{
   "persona": "페르소나에 대한 설명"
-}}
+}
 
 상세하고 일관된 페르소나를 생성해주세요.
 """
@@ -54,15 +51,7 @@ def generate_persona(user_info):
             age=user_info.age if user_info.age else "정보 없음",
             gender=user_info.gender if user_info.gender else "정보 없음",
             job=user_info.job if user_info.job else "정보 없음",
-            hobbies=", ".join(user_info.hobbies) if user_info.hobbies else "정보 없음",
-            personality_traits=", ".join(user_info.personality_traits) if user_info.personality_traits else "정보 없음",
-            preferred_genres=", ".join(user_info.preferred_genres) if user_info.preferred_genres else "정보 없음",
-            favorite_movies=", ".join(user_info.favorite_movies) if user_info.favorite_movies else "정보 없음",
-            disliked_elements=", ".join(user_info.disliked_elements) if user_info.disliked_elements else "정보 없음",
-            purpose=user_info.purpose if user_info.purpose else "정보 없음",
-            viewing_frequency=user_info.viewing_frequency if user_info.viewing_frequency else "정보 없음",
-            favorite_creators=", ".join(user_info.favorite_creators) if user_info.favorite_creators else "정보 없음",
-            viewing_environment=user_info.viewing_environment if user_info.viewing_environment else "정보 없음"
+            user_input=user_info.user_input if user_info.user_input else "정보 없음"
         )
         print(persona)
         return parse_json_safely(persona)
@@ -81,31 +70,16 @@ update_persona_template = """
 
 새로운 정보:
 {user_input}
-(나이, 성별, 직업, 취미와 관심사, 성격 특성, 이미 시청한 영화, 선호하는 감독이나 배우, 영화 감상 목적 등을 포함할 수 있습니다.)
-
-제공된 정보 중 일부가 비어있을 수 있습니다. 빈 값이 있으면 해당 정보를 무시하거나 그에 맞는 추론을 해주세요.
-기존 페르소나는 다음과 같은 과정을 통해 생성되었습니다.
-### 페르소나 생성 작업:
-1. 주어진 정보를 바탕으로 사용자의 성격, 취미 및 영화 선호도를 추론하세요.
-2. 사용자의 나이, 직업, 생활 패턴이 영화 선택에 미치는 영향을 고려하세요.
-3. 감정적, 지적 니즈에 따른 영화 선호도를 설명하세요.
-4. 특정 장르, 테마, 영화적 요소에 대한 호불호를 추론하세요.
-5. 영화 시청 습관과 환경을 고려한 추천 전략을 제시하세요.
-6. 문화적 배경과 언어 선호도를 추론하여 반영하세요.
-7. 영화 선택 기준(평점, 리뷰, 상업성 vs 예술성 등)을 추정하세요.
-8. 제공된 정보가 부족한 경우, 적절한 추론을 통해 완성된 페르소나 설명을 제공하세요.
-
-위 정보를 바탕으로 다음 작업을 수행해주세요:
 
 ### 페르소나 업데이트 작업:
-1. 기존 페르소나의 특성과 사용자가 제공한 새로운 정보를 바탕으로 업데이트된 페르소나를 생성하세요.
-2. 새로운 정보가 기존 페르소나에 미치는 영향을 고려하여, 기존의 특성을 조정하거나 추가하세요.
+1. 새로운 정보에 따라 기존 페르소나의 성격, 취미, 영화 선호도를 업데이트하세요.
+2. user_input에 추가된 정보가 기존 페르소나에 미치는 영향을 고려하여 적절히 조정하거나 추가하세요.
 3. 업데이트된 페르소나 설명은 JSON 형식으로 제공되어야 하며, "updated_persona": "업데이트된 페르소나"의 형식으로 반환해야 합니다.
 
 결과는 JSON 형식으로 반환해주세요:
-{{
+{
     "updated_persona": "생성된 업데이트된 페르소나"
-}}
+}
 """
 
 update_persona_prompt = PromptTemplate(

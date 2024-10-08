@@ -16,12 +16,14 @@ recommendation_template = """
 
 추가 정보:
 {user_input}
+{request_time}
 
 ### 영화 추천 작업
 위 정보를 바탕으로 다음 작업을 수행해주세요:
 1. 페르소나와 추가 정보에 적합한 영화 6편을 추천하세요. 추천 시 다음 사항을 고려하세요:
    - 각 영화의 장르와 스타일을 다양하게 선택
    - 사용자의 감정적, 지적 니즈 충족
+   - 영화 감상 목적에 맞는 영화(휴식, 영감, 즐거움 등) 반영
    - 선호하는 영화 요소(플롯, 캐릭터, 시각적 효과 등) 반영
    - 문화적 배경과 언어 선호도 고려
    - 사용자의 영화 선택 기준(상업성 vs 예술성, 신작 vs 고전) 반영
@@ -32,16 +34,16 @@ recommendation_template = """
 6. 총 6편의 영화를 추천하고, 각 영화에 대한 이유를 1~5번까지의 작업을 종합적으로 고려해 설명하세요.
 
 결과를 다음 JSON 형식으로 반환해주세요:
-{{
+{
     "recommendations": [
-        {{
+        {
             "title": "영화 제목",
             "reason": "추천 이유"
-        }},
+        },
         ...
     ],
     "persona_comment": "페르소나의 영화 취향 한 줄 설명"
-}}
+}
 """
 
 recommendation_prompt = PromptTemplate(
@@ -50,6 +52,7 @@ recommendation_prompt = PromptTemplate(
         "movie_candidates",
         "watched_movies",
         "user_input",
+        "request_time",
     ],
     template=recommendation_template
 )
@@ -67,13 +70,7 @@ def recommend_movies(request):
             persona=request.persona,
             movie_candidates=", ".join(request.movie_candidates),
             watched_movies=", ".join(request.watched_movies),
-            purpose=request.purpose,
-            current_mood=request.current_mood if request.current_mood else "정보 없음",
-            viewing_environment=request.viewing_environment,
-            preferred_duration=request.preferred_duration if request.preferred_duration else "정보 없음",
-            subtitle_preference=request.subtitle_preference if request.subtitle_preference else "정보 없음",
-            rating_importance=request.rating_importance if request.rating_importance else "정보 없음",
-            recent_viewing_trend=request.recent_viewing_trend if request.recent_viewing_trend else "정보 없음",
+            user_input=request.user_input if request.user_input else "정보 없음",
             request_time=current_time
         )
         return parse_json_safely(recommendations)
