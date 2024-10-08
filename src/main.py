@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 import uvicorn
 from persona import generate_persona, update_persona
 from recommendation import recommend_movies
+from organize import organize_user_info
 from pydantic import BaseModel
 from typing import List, Optional
 
@@ -41,6 +42,14 @@ async def update_persona_endpoint(existing_persona: str, user_input: str):
     try:
         updated_persona = update_persona(existing_persona, user_input)
         return updated_persona
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@app.post("/organize_input")
+async def organize_input_endpoint(user_input: str):
+    try:
+        organized_input = organize_user_info(user_input)
+        return organized_input
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
