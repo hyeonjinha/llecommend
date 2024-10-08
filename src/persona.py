@@ -12,15 +12,8 @@ persona_template = """
 - 나이: {age}
 - 성별: {gender}
 - 직업: {job}
-- 취미와 관심사: {hobbies}
-- 성격 특성: {personality_traits}
-- 선호하는 영화 장르: {preferred_genres}
-- 좋아하는 영화 3-5편: {favorite_movies}
-- 싫어하는 영화 유형이나 요소: {disliked_elements}
-- 영화 감상 목적: {purpose}
-- 평소 영화 시청 빈도: {viewing_frequency}
-- 선호하는 감독이나 배우: {favorite_creators}
-- 주로 영화를 시청하는 환경: {viewing_environment}
+- 유저가 제공한 추가 정보:{user_input}
+(나이, 성별, 직업, 취미와 관심사, 성격 특성, 이미 시청한 영화, 선호하는 감독이나 배우, 영화 감상 목적 등을 포함할 수 있습니다.)
 
 제공된 정보 중 일부가 비어있을 수 있습니다. 빈 값이 있으면 해당 정보를 무시하거나 그에 맞는 추론을 해주세요.
 
@@ -48,15 +41,7 @@ persona_prompt = PromptTemplate(
         "age",
         "gender",
         "job",
-        "hobbies",
-        "personality_traits",
-        "preferred_genres",
-        "favorite_movies",
-        "disliked_elements",
-        "purpose",
-        "viewing_frequency",
-        "favorite_creators",
-        "viewing_environment"
+        "user_input",
     ],
     template=persona_template
 )

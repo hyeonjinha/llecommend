@@ -11,28 +11,14 @@ class UserInfo(BaseModel):
     age: int
     gender: str
     job: str
-    hobbies: List[str]
-    personality_traits: List[str]
-    preferred_genres: List[str]
-    favorite_movies: List[str]
-    disliked_elements: List[str]
-    purpose: str
-    viewing_frequency: str
-    favorite_creators: List[str]
-    viewing_environment: str
+    user_input: str
 
 class MovieRecommendationRequest(BaseModel):
     persona: str
     movie_candidates: List[str]
     watched_movies: List[str]
-    purpose: str
-    current_mood: Optional[str]
-    viewing_environment: str
-    preferred_duration: Optional[str]
-    subtitle_preference: Optional[str]
-    rating_importance: Optional[str]
     recent_viewing_trend: Optional[str]
-    request_time: str
+    user_input: str
 
 @app.post("/generate_persona")
 async def generate_persona_endpoint(user_info: UserInfo):

@@ -15,14 +15,7 @@ recommendation_template = """
 {watched_movies}
 
 추가 정보:
-- 사용자의 영화 감상 목적: {purpose}
-- 현재 감정 상태: {current_mood}
-- 시청 환경: {viewing_environment}
-- 선호하는 영화 길이: {preferred_duration}
-- 자막 선호 여부: {subtitle_preference}
-- 평점/리뷰의 중요도: {rating_importance}
-- 최근 시청 트렌드: {recent_viewing_trend}
-- 요청 시각: {request_time}
+{user_input}
 
 ### 영화 추천 작업
 위 정보를 바탕으로 다음 작업을 수행해주세요:
@@ -56,14 +49,7 @@ recommendation_prompt = PromptTemplate(
         "persona",
         "movie_candidates",
         "watched_movies",
-        "purpose",
-        "current_mood",
-        "viewing_environment",
-        "preferred_duration",
-        "subtitle_preference",
-        "rating_importance",
-        "recent_viewing_trend",
-        "request_time"
+        "user_input",
     ],
     template=recommendation_template
 )
