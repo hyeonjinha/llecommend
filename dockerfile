@@ -37,6 +37,7 @@ COPY ./src/main.py .
 COPY ./src/persona.py .
 COPY ./src/recommendation.py .
 COPY ./src/utils.py .
+COPY ./sr/organize.py .
 
 # Ollama 서비스 시작 및 모델 생성을 위한 스크립트
 RUN echo '#!/bin/bash\n\
