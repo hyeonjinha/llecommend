@@ -3,8 +3,9 @@ import requests
 import mysql.connector
 from flask_cors import CORS
 from recommendation import get_recommendations
-from movie_recommender import m_data
+from movie_recommender import m_data # get_recommendations
 import numpy as np
+
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
