@@ -9,7 +9,7 @@ CORS(app)
 
 def get_db_connection():
     return mysql.connector.connect(
-        host="192.168.219.104",
+        host="172.21.72.218",
         user="new_user",
         password="new_password",
         database="movie_db"
@@ -55,7 +55,7 @@ def call_fastapi_persona(name):
 
 # 사용자 성향에 기반하여 영화 추천을 요청합니다.
 @app.route('/<string:name>/get_recommendations', methods=['POST'])
-def get_recommendations(name):
+def nothing_get_recommendations(name):
     try:
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
@@ -328,4 +328,4 @@ def item_exists():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5001)
