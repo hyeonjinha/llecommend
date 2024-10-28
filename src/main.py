@@ -18,7 +18,6 @@ class MovieRecommendationRequest(BaseModel):
     persona: str
     movie_candidates: List[str]
     watched_movies: List[str]
-    recent_viewing_trend: Optional[str]
     user_input: str
 
 @app.post("/generate_persona")

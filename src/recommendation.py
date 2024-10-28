@@ -5,6 +5,8 @@ from persona import llm
 
 # 영화 추천 템플릿
 recommendation_template = """
+당신은 사용자의 영화 취향을 정확히 이해하고 그에 맞춘 영화를 추천하는 영화 추천 전문가입니다. 사용자의 페르소나와 추가 정보, 영화 후보 리스트를 바탕으로 각 영화가 사용자에게 어떻게 맞는지 분석하여 6편의 영화를 추천해 주세요.
+
 페르소나:
 {persona}
 영화 후보 리스트:
@@ -13,8 +15,6 @@ recommendation_template = """
 {watched_movies}
 추가 정보:
 {user_input}
-
-{request_time}
 
 ### 영화 추천 작업
 위 정보를 바탕으로 다음 작업을 수행해주세요:
@@ -31,18 +31,17 @@ recommendation_template = """
 4. 사용자의 감정 상태, 시청 환경, 선호하는 영화 길이, 자막 선호 여부 등을 고려하여 추천을 조정하세요. 
     정보가 주어지지 않은 경우, 페르소나를 바탕으로 합리적인 추론을 해주세요.
 5. 요청 시각과 최근 시청 트렌드를 고려하여 추천을 조정하세요. 시간대나 계절에 따라 적합한 영화를 선정하고, 사용자의 최근 관심사를 반영하세요.
-6. 총 6편의 영화를 추천하고, 각 영화에 대한 이유를 1~5번까지의 작업을 종합적으로 고려해 설명하세요.
+6. 총 6편의 영화를 추천하고, 각 영화에 대한 추천 이유를 1~5번까지의 작업을 종합적으로 고려해 자세하게 설명하세요.
 
 결과를 다음 JSON 형식으로 반환해주세요:
 {{
     "recommendations": [
-        {
+        {{
             "title": "영화 제목",
             "reason": "추천 이유"
-        },
+        }},
         ...
-    ],
-    "persona_comment": "페르소나의 영화 취향 한 줄 설명"
+    ]
 }}
 """
 
@@ -52,7 +51,6 @@ recommendation_prompt = PromptTemplate(
         "movie_candidates",
         "watched_movies",
         "user_input",
-        "request_time",
     ],
     template=recommendation_template
 )
@@ -73,6 +71,7 @@ def recommend_movies(request):
             user_input=request.user_input if request.user_input else "정보 없음",
             request_time=current_time
         )
+        print(f"Raw recommendation output: {recommendations}")
         return parse_json_safely(recommendations)
     except Exception as e:
         raise ValueError(f"Error recommending movies: {e}")
