@@ -26,9 +26,9 @@ persona_template = """
 
 결과는 다음 JSON 형식으로 제공해주세요:
 
-{
+{{
   "persona": "페르소나에 대한 설명"
-}
+}}
 
 상세하고 일관된 페르소나를 생성해주세요.
 """
@@ -53,7 +53,7 @@ def generate_persona(user_info):
             job=user_info.job if user_info.job else "정보 없음",
             user_input=user_info.user_input if user_info.user_input else "정보 없음"
         )
-        print(persona)
+        print(f"Raw persona output: {persona}")
         return parse_json_safely(persona)
     except Exception as e:
         raise ValueError(f"Error generating persona: {e}")
@@ -77,9 +77,9 @@ update_persona_template = """
 3. 업데이트된 페르소나 설명은 JSON 형식으로 제공되어야 하며, "updated_persona": "업데이트된 페르소나"의 형식으로 반환해야 합니다.
 
 결과는 JSON 형식으로 반환해주세요:
-{
+{{
     "updated_persona": "생성된 업데이트된 페르소나"
-}
+}}
 """
 
 update_persona_prompt = PromptTemplate(
