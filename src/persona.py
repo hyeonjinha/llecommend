@@ -3,7 +3,7 @@ from langchain.prompts import PromptTemplate
 from utils import parse_json_safely
 from langchain.llms import Ollama
 
-llm = Ollama(model="eeve:latest")
+llm = Ollama(model="EEVE-KR:latest")
 # 페르소나 생성 템플릿
 persona_template = """
 당신은 영화 추천을 위한 사용자 페르소나를 만드는 전문가입니다. 주어진 정보를 바탕으로 JSON 형식의 상세한 페르소나를 생성해주세요.
