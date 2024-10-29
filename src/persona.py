@@ -96,6 +96,7 @@ def update_persona(existing_persona, user_input):
             existing_persona=existing_persona,
             user_input=user_input
         )
+        print(f"Raw updated persona output: {updated_persona}")
         return parse_json_safely(updated_persona)
     except Exception as e:
         raise ValueError(f"Error updating persona: {e}")
